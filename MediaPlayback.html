@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html>
+ <head>
+        <title>Media Playback</title>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+ </head>
+ <style>
+
+ 
+      li {display: block;}
+	
+
+</style> 
+ <body style="background:gray;">	        
+		
+		<div class="card text-center" style="border: 2px solid green;padding:5px;background:lightgray;"> Upload Media Files(mp4,webm,ogg,mp3,wav,pdf)		  
+		 <div class="container"> 		 
+		  <input class="card text-center" id="mediaFiles" type="file" multiple style="border: 2px solid blue;padding:5px;background:teal;" accept="application/pdf,audio/mpeg,audio/ogg,audio/wav,video/mp4,video/ogg,video/webm"> </input>
+		 </div>
+		</div>
+   
+        <!this is video player so it can play both A/V>
+		<h1 class="card text-center my-1" style="border: 2px solid green;padding:5px;background:lightblue;">Media Playback</h1>
+	   <div id="cuelist" class="row" width="33%">
+	  <div class="col"></div>
+		<video class="col"id="playlistplayer" controls width="33%">			
+		</video>
+		<li class="col" id="playlistbtngroup" style="width=33%"></li>
+		  			
+        </div>		
+		
+		<div class="container text-center">        
+           <div class="card" style="background:lightgray;">
+             <div class="row" id="sbslist">
+			 <li class="col" id="medialist" style="width:33%" ></li>             			 
+             <li class="col" id="playlist" style="width:33%" ></li>
+			 <li class="col" id="btnGrp" style="width:33%" ></li>
+            </div>
+           </div>
+         </div> 
+ 
+ <script>
+	
+  
+	// JavaScript for playlist and playback control               
+    
+
+      
+     
+     const playlist = document.getElementById('playlist');	
+ 	 const medialist = document.getElementById('medialist');
+	 const btnGrp = document.getElementById('btnGrp');
+     const cuelistElement = document.getElementById("medialist");
+	 
+
+	 
+	  mediaFiles.addEventListener('change', function() {
+           for (let i = 0; i < this.files.length; i++){     
+   	  
+	  const file = this.files[i];
+      const url = URL.createObjectURL(file);	  	  
+	  const name = document.createElement('li');
+	  const NA = document.createElement(null);
+	  const fType = document.createElement('text');     	  
+	  const mediaTitle = document.getElementById("cuelist");
+	  
+      
+	  const player = document.createElement('div');
+	  const btncontrol = document.createElement('div'); 
+      const audio = document.createElement('audio');	  	    
+	  const video = document.createElement('video'); 
+      const pdf = document.createElement('object');
+      const	cbbtn = document.createElement('button');  
+      const mediasrcs = document.createElement('source');
+
+      const playlistwindowbtn = document.createElement('button');
+	  const loopbtn = document.createElement('input');
+	  const playbtn = document.createElement('button');
+	  const stopbtn = document.createElement('button');  
+	  const pipbtn = document.createElement('button');
+	  const mutebtn = document.createElement('button');
+	  const playlistplayer = document.getElementById('playlistplayer');
+	  const playlistbtngroup=document.getElementById('playlistbtngroup');
+	  
+	  const cuelist = [document.getElementById('mediaFiles')]	  
+	  cuelist.forEach((item, index) => {
+      const listItem = document.createElement("li");
+      listItem.classList.add("list-group-item");
+      listItem.setAttribute("data-index", index);
+      listItem.innerText = file.name;   
+	  name.addEventListener("click", () => {       
+        playlistplayer.setAttribute("src", url);
+        playlistplayer.load();});});
+	 
+	  name.innerHTML=file.name;	
+      fType.innerHTML=file.type;
+	  NA.innerHTML=null;
+
+      mediasrcs.src=url;
+	  
+	  
+	  
+
+      btnGrp.appendChild(btncontrol);	  
+	  
+	  name.style="background:lightgray;";
+	  name.style.border="2px solid purple";
+	  name.style.height="160px";
+	  
+	  cbbtn.innerHTML="loop";
+	  cbbtn.type="button";
+	  
+	  loopbtn.innerHTML="loop";
+	  loopbtn.type="checkbox";
+	  loopbtn.id="myCheck";
+	  
+	  btncontrol.style="background:lightgray;";
+	  btncontrol.style.border="2px solid purple";
+	  btncontrol.style.height="160px";
+	  
+	  player.style="background:lightgray;";
+	  player.class="text=center";
+	  player.style.height="160px";	  	 
+
+	  audio.style.border="2px solid purple";
+	  	  
+	  video.style.height="160px";
+	  video.style.border="2px solid purple";	
+	   	  
+	  pdf.type="application/pdf";
+	   	  
+	   if (file.type === "audio/mpeg"){
+	  audio.src = url;
+	  audio.controls = true;
+	  
+	  player.appendChild(audio);     	  
+	  medialist.appendChild(name);
+	  
+      	  
+	  playlist.appendChild(player);      
+	  	 
+	  btncontrol.appendChild(playbtn);
+	  btncontrol.appendChild(stopbtn);
+	  btncontrol.appendChild(mutebtn);
+	  btncontrol.appendChild(cbbtn);
+      cbbtn.appendChild(loopbtn);
+	  
+	 
+   	  playbtn.onclick=function(){audio.play();};
+	  playbtn.type="button";
+	  playbtn.innerHTML="play";
+	 
+	  stopbtn.onclick=function(){audio.pause();audio.load()};
+	  stopbtn.type="button";
+	  stopbtn.innerHTML="stop";
+	  
+	  mutebtn.onclick=function(){audio.muted=true};
+	  mutebtn.type="button";
+	  mutebtn.innerHTML="mute";
+  
+	  loopbtn.onclick=function (){	  	  
+	  var checkbox = document.getElementById("myCheck");	  
+	  if (checkbox.checked == true){audio.loop = true}
+	  else {audio.loop = false;}	      
+	  };
+      
+	  }
+			   
+       else if (file.type === "audio/ogg"){
+	  audio.src = url;
+	  audio.controls = true;
+	  player.appendChild(audio);    
+	  medialist.appendChild(name);
+	  playlist.appendChild(player);       	  
+                  
+	  btncontrol.appendChild(playbtn);
+	  btncontrol.appendChild(stopbtn);
+	  btncontrol.appendChild(mutebtn);
+	  btncontrol.appendChild(cbbtn);
+      cbbtn.appendChild(loopbtn);
+	  
+	  
+   	  playbtn.onclick=function(){audio.play();};
+	  playbtn.type="button";
+	  playbtn.innerHTML="play";
+	 
+	  stopbtn.onclick=function(){audio.pause();audio.load()};
+	  stopbtn.type="button";
+	  stopbtn.innerHTML="stop";
+
+	   loopbtn.onclick=function (){	  	  
+	  var checkbox = document.getElementById("myCheck");	  
+	  if (checkbox.checked == true){audio.loop = true}
+	  else {audio.loop = false;}	      
+	  }
+	  
+	  mutebtn.onclick=function(){audio.muted=true};
+	  mutebtn.type="button";
+	  mutebtn.innerHTML="mute";				 
+				 }  
+				 
+       else if (file.type === "audio/wav"){
+	  audio.src = url;
+	  audio.controls = true;
+	  player.appendChild(audio);    
+	  medialist.appendChild(name);
+	  playlist.appendChild(player); 
+     
+	  btncontrol.appendChild(playbtn);
+	  btncontrol.appendChild(stopbtn);
+	  btncontrol.appendChild(mutebtn);
+	  btncontrol.appendChild(cbbtn);
+      cbbtn.appendChild(loopbtn);	  	
+	 
+   	  playbtn.onclick=function(){audio.play();};
+	  playbtn.type="button";
+	  playbtn.innerHTML="play";
+	 
+	  stopbtn.onclick=function(){audio.pause();audio.load()};
+	  stopbtn.type="button";
+	  stopbtn.innerHTML="stop";
+	  
+	   loopbtn.onclick=function (){	  	  
+	  var checkbox = document.getElementById("myCheck");	  
+	  if (checkbox.checked == true){audio.loop = true}
+	  else {audio.loop = false;}	      
+	  }
+	  
+	  mutebtn.onclick=function(){audio.muted=true};
+	  mutebtn.type="button";
+	  mutebtn.innerHTML="mute";	  
+                            }  	
+							
+	   else if(file.type === "video/mp4"){
+      video.src = url;
+	  video.controls = true;	
+	  player.appendChild(video);    
+      medialist.appendChild(name);	  	 
+	  playlist.appendChild(player);
+	  	 
+	  btncontrol.appendChild(playbtn);
+	  btncontrol.appendChild(stopbtn);
+	  btncontrol.appendChild(pipbtn);
+	  btncontrol.appendChild(mutebtn);
+	  btncontrol.appendChild(cbbtn);
+      cbbtn.appendChild(loopbtn);
+	  	  
+   	  playbtn.onclick=function(){video.play();};
+	  playbtn.type="button";
+	  playbtn.innerHTML="play";
+	 
+	  stopbtn.onclick=function(){video.pause();video.load()};
+	  stopbtn.type="button";
+	  stopbtn.innerHTML="stop";
+	  
+	   loopbtn.onclick=function (){	  	  
+	  var checkbox = document.getElementById("myCheck");	  
+	  if (checkbox.checked == true){video.loop = true}
+	  else {video.loop = false;}	      
+	  }
+	  
+	  mutebtn.onclick=function(){video.muted=true};
+	  mutebtn.type="button";
+	  mutebtn.innerHTML="mute";
+	  
+	  pipbtn.onclick=function(){video.requestPictureInPicture();};
+	  pipbtn.type="button";
+	  pipbtn.innerHTML="PIP";	  
+	   }
+	   
+	   else if(file.type === "video/ogg"){
+      video.src = url;
+	  video.controls = true;	
+	  player.appendChild(video);    
+      medialist.appendChild(name);	  	 
+	  playlist.appendChild(player);
+	  	  
+	  btncontrol.appendChild(playbtn);
+	  btncontrol.appendChild(stopbtn);
+	  btncontrol.appendChild(pipbtn);
+	  btncontrol.appendChild(mutebtn);
+	  btncontrol.appendChild(cbbtn);
+      cbbtn.appendChild(loopbtn);
+	  		 
+   	  playbtn.onclick=function(){video.play();};
+	  playbtn.type="button";
+	  playbtn.innerHTML="play";
+	 
+	  stopbtn.onclick=function(){video.pause();video.load()};
+	  stopbtn.type="button";
+	  stopbtn.innerHTML="stop";
+	  
+	   loopbtn.onclick=function (){	  	  
+	  var checkbox = document.getElementById("myCheck");	  
+	  if (checkbox.checked == true){video.loop = true}
+	  else {video.loop = false;}	      
+	  }
+	  
+	  mutebtn.onclick=function(){video.muted=true};
+	  mutebtn.type="button";
+	  mutebtn.innerHTML="mute";
+	  
+	  pipbtn.onclick=function(){video.requestPictureInPicture();};
+	  pipbtn.type="button";
+	  pipbtn.innerHTML="PIP";	  
+	   }
+	   
+	   else if(file.type === "video/webm"){
+      video.src = url;
+	  video.controls = true;	
+	  player.appendChild(video);    
+      medialist.appendChild(name);	  	 
+	  playlist.appendChild(player);
+	  	 
+	  btncontrol.appendChild(playbtn);
+	  btncontrol.appendChild(stopbtn);
+	  btncontrol.appendChild(pipbtn);
+	  btncontrol.appendChild(mutebtn);
+	  btncontrol.appendChild(cbbtn);
+      cbbtn.appendChild(loopbtn);	  
+	 
+   	  playbtn.onclick=function(){video.play();};
+	  playbtn.type="button";
+	  playbtn.innerHTML="play";
+	 
+	  stopbtn.onclick=function(){video.pause();video.load()};
+	  stopbtn.type="button";
+	  stopbtn.innerHTML="stop";
+	  
+	   loopbtn.onclick=function (){	  	  
+	  var checkbox = document.getElementById("myCheck");	  
+	  if (checkbox.checked == true){video.loop = true}
+	  else {video.loop = false;}	      
+	  }
+	  
+	  mutebtn.onclick=function(){video.muted=true};
+	  mutebtn.type="button";
+	  mutebtn.innerHTML="mute";
+	  
+	  pipbtn.onclick=function(){video.requestPictureInPicture();};
+	  pipbtn.type="button";
+	  pipbtn.innerHTML="PIP";	  
+	   }
+	   
+	   else if(file.type === "application/pdf"){
+      pdf.data = url;
+	  medialist.appendChild(name);
+	  playlist.appendChild(pdf);	 
+	   }	
+ 	   
+	   else if (file){
+   	  playlist.appendChild(null);
+	   }
+	    
+       }
+	 
+	   }); 
+	   
+   </script>
+ 
+ </body>
+</html>
