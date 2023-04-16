@@ -8,7 +8,9 @@
  </head>
 <style>
 
- 
+ .highlight {
+  background-color: lightblue;
+}
 
  li {display: block;}
 		
@@ -69,7 +71,9 @@
 	  listItem.innerText = file.name;       
 	  cuebtn.addEventListener("click", () => {       
         playlistplayer.setAttribute("src", url);
-        playlistplayer.load();});})		
+        playlistplayer.load()
+		trackcontainer.setAttribute("style","background:lightblue");
+		;});})		
 	const deletetrack =[document.getElementById('sortableplaylist')]
 		deletebtn.addEventListener("click", () => {		
 	    medialist.removeChild(trackcontainer);
@@ -86,7 +90,7 @@
 		mediaplayer.controls=true;
 		
 		trackcontainer.className="row";
-		trackcontainer.style="background:lightgray;";
+		
 	    trackcontainer.style.border="2px solid purple";
 	    trackcontainer.style.height="10%";
 		
