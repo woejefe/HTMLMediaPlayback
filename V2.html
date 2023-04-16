@@ -51,14 +51,29 @@
 	const file = this.files[i];
     const url = URL.createObjectURL(file);	  	  
 	
-	const trackcontainer=document.createElement('div');
-	const btncontrol=document.createElement('li');
-	const cuecontrol=document.createElement('li');
+	 const trackcontainer=document.createElement('div');
+	 const btncontrol=document.createElement('li');
+	 const cuecontrol=document.createElement('li');	
+	 const playerwindow=document.createElement('li');
 	
-	const playerwindow=document.createElement('li');
-	
+	const playlistplayer= document.getElementById('playlistplayer');
 	const mediaplayer = document.createElement('video');
+	
 	const cuebtn = document.createElement('button');
+	const deletebtn = document.createElement('button');	
+	const cueup = [document.getElementById('mediaFiles')]	  
+	  cueup.forEach((item, index) => {
+      const listItem = document.createElement("li");
+      listItem.classList.add("list-group-item");
+      listItem.setAttribute("data-index", index);
+	  listItem.innerText = file.name;       
+	  cuebtn.addEventListener("click", () => {       
+        playlistplayer.setAttribute("src", url);
+        playlistplayer.load();});})		
+	const deletetrack =[document.getElementById('sortableplaylist')]
+		deletebtn.addEventListener("click", () => {		
+	    medialist.removeChild(trackcontainer);
+		})
 
 	medialist.appendChild(trackcontainer);	
 	trackcontainer.appendChild(cuecontrol);
@@ -66,18 +81,27 @@
 	trackcontainer.appendChild(btncontrol);		
 	playerwindow.appendChild(mediaplayer);
 	cuecontrol.appendChild(cuebtn);
+	cuecontrol.appendChild(deletebtn);
+		
+		mediaplayer.controls=true;
 		
 		trackcontainer.className="row";
+		trackcontainer.style="background:lightgray;";
+	    trackcontainer.style.border="2px solid purple";
+	    trackcontainer.style.height="10%";
+		
+		
 		cuecontrol.className="col";
 		btncontrol.className="col";
 		playerwindow.className="col";
 		
 		cuebtn.innerHTML="Cue";
+		deletebtn.innerHTML="Delete";
+		
 	}
   });
 	  
 	
-		
 
 
 
