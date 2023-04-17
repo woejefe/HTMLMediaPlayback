@@ -1,11 +1,12 @@
 
+
 <!DOCTYPE html>
 <html>
  <head>
         <title>Media Playback</title>
-		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">	
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.13.0/Sortable.min.js"></script>
-
+		
  </head>
 <style>
 
@@ -28,12 +29,12 @@
 	<h1 class="card text-center my-1" style="border: 2px solid green;padding:5px;background:lightblue;">Media Playback</h1>
 	   
 	   
-	   <div id="cuelist" class="row" width="33%">
-	  <div class="col"></div>
-		<video class="col"id="playlistplayer" controls width="33%">			
-		</video>
+	   <div id="cuelist" class="row" >
+  
+		<li class="col" id="playlistmedia" style="width=33%"></li>
+		<video class="col" id="playlistplayer" controls></video>
 		<li class="col" id="playlistbtngroup" style="width=33%"></li>
-		<li class="col" id="playlistmedia" style="width=33%"></li>		
+	
         </div>		
       
            <div class="card" style="background:lightgray;">
@@ -44,7 +45,9 @@
 		
 	
 <script>
-	const cuebtns = document.querySelectorAll('list.cuebtn');
+	
+	
+	const cuebtns = document.querySelectorAll('.cuebtn');
 	const playlistmedia= document.getElementById('playlistmedia');
 	const playlistplayer= document.getElementById('playlistplayer');
 	
@@ -73,23 +76,22 @@
       const listItem = document.createElement("li");
       listItem.classList.add("list-group-item");
       listItem.setAttribute("data-index", index);
-	  listItem.innerText = file.name;       	  
+	  listItem.innerText = file.name;
+	  cuecontrol.appendChild(listItem);
+	  
 	  cuebtn.addEventListener("click", () => {       
         playlistplayer.setAttribute("src", url);
         playlistplayer.load()
-		playlistmedia.appendChild(listItem);
+		playlistmedia.innerHTML=file.name;
 		
-		 if (cuebtn.classList.contains('active')) {
-    cuebtn.classList.remove('active');
-  } else {
-	cuebtns.forEach((button) =>{
-	button.classList.remove('active')});
-    cuebtn.classList.add('active');
-  };
-
+		new Sortable(playlistmedia);
+		
 		
 		})
-		});		
+		});	
+		
+		
+	
 	
 	
 	
@@ -101,8 +103,9 @@
 	medialist.appendChild(trackcontainer);	
 	trackcontainer.appendChild(cuecontrol);
 	trackcontainer.appendChild(playerwindow);
-	trackcontainer.appendChild(btncontrol);		
 	playerwindow.appendChild(mediaplayer);
+	trackcontainer.appendChild(btncontrol);		
+	
 	cuecontrol.appendChild(cuebtn);
 	cuecontrol.appendChild(deletebtn);
 		
@@ -115,8 +118,9 @@
 		
 		
 		cuecontrol.className="col";
-		btncontrol.className="col";
 		playerwindow.className="col";
+		btncontrol.className="col";
+		
 		
 		cuebtn.innerHTML="Cue";
 		deletebtn.innerHTML="Delete";
@@ -136,4 +140,6 @@
 </body>	
 
 </html>
+
+
 
