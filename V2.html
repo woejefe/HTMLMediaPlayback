@@ -1,5 +1,6 @@
 
 
+
 <!DOCTYPE html>
 <html>
  <head>
@@ -7,8 +8,8 @@
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">	
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.13.0/Sortable.min.js"></script>
 		
-		<link rel="stylesheet" href="https://cdn.plyr.io/3.6.2/plyr.css" />
-		<script src="https://cdn.plyr.io/3.6.2/plyr.js"></script>
+		<link href="https://vjs.zencdn.net/7.10.2/video-js.min.css" rel="stylesheet">
+		<script src="https://vjs.zencdn.net/7.10.2/video.min.js"></script>
 		
  </head>
 <style>
@@ -36,11 +37,11 @@
   
 		<li class="col" id="playlistmedia" style="width=33%"></li>
 		<li class="col">
-		<div  class="plyr">
-		  <video id="playlistplayer" controls>
-			<source src="" type="" />
+		
+		  <video controls id="playlistplayer" class="video-js col" data-setup='{"autoplay":false,"preload":false}' height="160" fluid style="width=33%">
+			
 		  </video>
-		</div>
+		
 		</li>
 		<li class="col" id="playlistbtngroup" style="width=33%"></li>
 	
@@ -56,9 +57,14 @@
 <script>
 	
 	
+	
+	
 	const cuebtns = document.querySelectorAll('.cuebtn');
 	const playlistmedia= document.getElementById('playlistmedia');
 	const playlistplayer= document.getElementById('playlistplayer');
+	
+	
+	
 	
 	const medialist = document.getElementById('sortableplaylist');
 	mediaFiles.addEventListener('change', function() {
@@ -70,19 +76,20 @@
 	 const trackcontainer=document.createElement('div');
 	 const btncontrol=document.createElement('li');
 	 const cuecontrol=document.createElement('li');	
-	 const playerwindow=document.createElement('li');
-	
+	 const playerwindow=document.createElement('li');	
 	
 	const mediaplayer = document.createElement('video');
-	
+		  mediaplayer.className="video-js";
+		  
+		 
+	const listItem = document.createElement("li");
+	const sourceItem = document.createElement("li");
 	const cuebtn = document.createElement('button');
-	const deletebtn = document.createElement('button');	
-	
-	
+	const deletebtn = document.createElement('button');			
 	
 	const cueup = [document.getElementById('mediaFiles')]	  
 	  cueup.forEach((item, index) => {
-      const listItem = document.createElement("li");
+      
 	  
       listItem.classList.add("list-group-item");
       listItem.setAttribute("data-index", index);
@@ -92,23 +99,23 @@
 	  cuebtn.addEventListener("click", () => {       
         playlistplayer.setAttribute("src", url);
         playlistplayer.load()
-		playlistmedia.appendChild(listItem);
+		
 		listItem.setAttribute("src", url);
 		
-		new Sortable(playlistmedia);
+		playlistmedia.appendChild(listItem);
 		
-		
+		new Sortable(playlistmedia);				
 		})
 		});	
-		
-		
-	
+
 	
 	
 	
 	const deletetrack =[document.getElementById('sortableplaylist')]
 		deletebtn.addEventListener("click", () => {		
 	    medialist.removeChild(trackcontainer);
+		playlistmedia.removeChild(listItem);
+		playlistplayer.removeChild(sourceItem);
 		});
 
 	medialist.appendChild(trackcontainer);	
@@ -119,9 +126,7 @@
 	
 	cuecontrol.appendChild(cuebtn);
 	cuecontrol.appendChild(deletebtn);
-		
-		
-		
+	
 		trackcontainer.className="row";
 		
 	    trackcontainer.style.border="2px solid purple";
@@ -136,21 +141,8 @@
 		cuebtn.innerHTML="Cue";
 		deletebtn.innerHTML="Delete";
 		
-	}
-  });
-	  
-	
-	const player = new Plyr('.plyr', {
-     shuffle: {
-      seed: Date.now()
-     },
-    playlist: {
-      enabled: true,
-      data: playlistmedia
-    }
- 
-
- });
+  }
+});
 
 
 </script
@@ -161,6 +153,8 @@
 </body>	
 
 </html>
+
+
 
 
 
