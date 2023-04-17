@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
  <head>
@@ -8,7 +9,7 @@
  </head>
 <style>
 
- .highlight {
+ .active {
   background-color: lightblue;
 }
 
@@ -31,7 +32,8 @@
 	  <div class="col"></div>
 		<video class="col"id="playlistplayer" controls width="33%">			
 		</video>
-		<li class="col" id="playlistbtngroup" style="width=33%"></li>		  			
+		<li class="col" id="playlistbtngroup" style="width=33%"></li>
+		<li class="col" id="playlistmedia" style="width=33%"></li>		
         </div>		
       
            <div class="card" style="background:lightgray;">
@@ -42,9 +44,9 @@
 		
 	
 <script>
-	
-	
-	
+	const cuebtns = document.querySelectorAll('list.cuebtn');
+	const playlistmedia= document.getElementById('playlistmedia');
+	const playlistplayer= document.getElementById('playlistplayer');
 	
 	const medialist = document.getElementById('sortableplaylist');
 	mediaFiles.addEventListener('change', function() {
@@ -58,26 +60,43 @@
 	 const cuecontrol=document.createElement('li');	
 	 const playerwindow=document.createElement('li');
 	
-	const playlistplayer= document.getElementById('playlistplayer');
+	
 	const mediaplayer = document.createElement('video');
 	
 	const cuebtn = document.createElement('button');
 	const deletebtn = document.createElement('button');	
+	
+	
+	
 	const cueup = [document.getElementById('mediaFiles')]	  
 	  cueup.forEach((item, index) => {
       const listItem = document.createElement("li");
       listItem.classList.add("list-group-item");
       listItem.setAttribute("data-index", index);
-	  listItem.innerText = file.name;       
+	  listItem.innerText = file.name;       	  
 	  cuebtn.addEventListener("click", () => {       
         playlistplayer.setAttribute("src", url);
         playlistplayer.load()
-		trackcontainer.setAttribute("style","background:lightblue");
-		;});})		
+		playlistmedia.appendChild(listItem);
+		
+		 if (cuebtn.classList.contains('active')) {
+    cuebtn.classList.remove('active');
+  } else {
+	cuebtns.forEach((button) =>{
+	button.classList.remove('active')});
+    cuebtn.classList.add('active');
+  };
+
+		
+		})
+		});		
+	
+	
+	
 	const deletetrack =[document.getElementById('sortableplaylist')]
 		deletebtn.addEventListener("click", () => {		
 	    medialist.removeChild(trackcontainer);
-		})
+		});
 
 	medialist.appendChild(trackcontainer);	
 	trackcontainer.appendChild(cuecontrol);
@@ -117,4 +136,4 @@
 </body>	
 
 </html>
-		
+
