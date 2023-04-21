@@ -58,7 +58,7 @@
 	const cuebtn = document.createElement('button');
 	const deletebtn = document.createElement('button');	
 	const playbtn = document.createElement('button');		
-	const pausebtn = document.createElement('button');
+	
 	const loopbtn = document.createElement('button');
 	
 	 const trackcontainer=document.createElement('div');
@@ -70,7 +70,7 @@
 		  mediaplayer.className="video-js";
 		  mediaplayer.setAttribute('data-setup', '{}');
 		  mediaplayer.controls = true;
-		  mediaplayer.preload = false;
+		  mediaplayer.setAttribute("src", url);
 		  mediaplayer.load();
 		  
 	const cueup = [document.getElementById('mediaFiles')]	  
@@ -85,13 +85,18 @@
 	  mediaplayer.setAttribute('data-index', i + 1);		});
 
 			});	
+		
+		
+		playbtn.addEventListener('click', function() {
+    if (mediaplayer.paused || mediaplayer.ended) {
+      mediaplayer.play();
+      playbtn.textContent = 'Pause';
+    } else {
+      mediaplayer.pause();
+      playbtn.textContent = 'Play';
+    }
+  });
 
-        playbtn.addEventListener("click",	() => {
-		mediaplayer.load();
-		mediaplayer.play();		});
-			
-	    pausebtn.addEventListener("click",	() => {	
-	    mediaplayer.pause();	});
 		
 		loopbtn.addEventListener("click",	() => {		     
 		 if (mediaplayer.loop === true) {
@@ -112,10 +117,10 @@
 	playerwindow.appendChild(mediaplayer);
 	trackcontainer.appendChild(btncontrol);		
 	
-	btncontrol.appendChild(cuebtn);
+	
 	btncontrol.appendChild(loopbtn);	
 	btncontrol.appendChild(playbtn);
-	btncontrol.appendChild(pausebtn);
+	
 	btncontrol.appendChild(deletebtn);
 	
 	
@@ -137,14 +142,12 @@
 		
 		
 		loopbtn.innerHTML="Loop";
-		playbtn.innerHTML="Play";
-		pausebtn.innerHTML="Pause";
+		playbtn.textContent = 'Play';
 		cuebtn.innerHTML="ARM";
 		deletebtn.innerHTML="Delete";
 		
 		loopbtn.style.background="lightgray";
-		playbtn.style.background="green";
-		pausebtn.style.background="orange";
+		
 		cuebtn.style.background="teal";
 		deletebtn.style.background="red";
 	
@@ -165,6 +168,8 @@
 </body>	
 
 </html>
+
+
 
 
 
