@@ -1,6 +1,5 @@
 
 
-
 <!DOCTYPE html>
 <html>
  <head>
@@ -83,21 +82,18 @@
 	 
 	  cuebtn.addEventListener("click", () => {       
 	  mediaplayer.setAttribute("src", url);	  
-	  mediaplayer.setAttribute('data-index', i + 1);
-				});
+	  mediaplayer.setAttribute('data-index', i + 1);		});
 
 			});	
 
-        playbtn.addEventListener("click",	() => {			
-		mediaplayer.play();
-		
-		});
+        playbtn.addEventListener("click",	() => {
+		mediaplayer.load();
+		mediaplayer.play();		});
 			
 	    pausebtn.addEventListener("click",	() => {	
 	    mediaplayer.pause();	});
 		
-		loopbtn.addEventListener("click",	() => {	
-	     
+		loopbtn.addEventListener("click",	() => {		     
 		 if (mediaplayer.loop === true) {
 		 mediaplayer.loop = false;
 		 loopbtn.style.background='lightgray';}
@@ -143,7 +139,7 @@
 		loopbtn.innerHTML="Loop";
 		playbtn.innerHTML="Play";
 		pausebtn.innerHTML="Pause";
-		cuebtn.innerHTML="Cue";
+		cuebtn.innerHTML="ARM";
 		deletebtn.innerHTML="Delete";
 		
 		loopbtn.style.background="lightgray";
