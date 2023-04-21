@@ -1,5 +1,6 @@
 
 
+
 <!DOCTYPE html>
 <html>
  <head>
@@ -25,28 +26,13 @@
 		
 		<div class="card text-center" style="border: 2px solid green;padding:5px;background:lightgray;"> Upload Media Files(mp4,webm,ogg,mp3,wav,pdf)		  
 		 <div class="container"> 		 
-		  <input class="card text-center" id="mediaFiles" type="file" multiple style="border: 2px solid blue;padding:5px;background:teal;" accept="application/pdf,audio/mpeg,audio/ogg,audio/wav,video/mp4,video/ogg,video/webm"> </input>
+		  <input class="card text-center" id="mediaFiles" type="file" multiple style="border: 2px solid blue;padding:10px;background:teal;" accept="application/pdf,audio/mpeg,audio/ogg,audio/wav,video/mp4,video/ogg,video/webm"> </input>
 		 </div>
 		</div>
 		
 		
 	<h1 class="card text-center my-1" style="border: 2px solid green;padding:5px;background:lightblue;">Media Playback</h1>
-	   
-	   
-	   <div id="cuelist" class="row" >
-  
-		<li class="col text-center" id="playlistmedia" style="width:33%"></li>
-		<li class="col text-center" style="width:33%;margin-left:-10px">
-		
-		  <video id="playlistplayer" class="video-js text-center" data-setup='{"autoplay":false,"preload":false}'height="160">
-			
-		  </video>
-		
-		</li>
-		<li class="col text-center" id="playlistbtngroup" style="width:33%;">
-		
-		</li>
-	
+
         </div>		
       
            <div class="card" style="background:lightgray;">
@@ -58,16 +44,7 @@
 	
 <script>
 	
-	
-	
-	
-	
-	const cuebtns = document.querySelectorAll('.cuebtn');
-	const playlistmedia= document.getElementById('playlistmedia');
-	const playlistplayer= document.getElementById('playlistplayer');
-	
-	
-	
+
 	
 	const medialist = document.getElementById('sortableplaylist');
 	mediaFiles.addEventListener('change', function() {
@@ -77,7 +54,13 @@
 	const file = this.files[i];
     const url = URL.createObjectURL(file);
 			
-	
+	const listItem = document.createElement("li");
+	const sourceItem = document.createElement("source");
+	const cuebtn = document.createElement('button');
+	const deletebtn = document.createElement('button');	
+	const playbtn = document.createElement('button');		
+	const pausebtn = document.createElement('button');
+	const loopbtn = document.createElement('button');
 	
 	 const trackcontainer=document.createElement('div');
 	 const btncontrol=document.createElement('li');
@@ -91,55 +74,40 @@
 		  mediaplayer.preload = false;
 		  mediaplayer.load();
 		  
-		  
-		 
-	const listItem = document.createElement("li");
-	const sourceItem = document.createElement("source");
-	const cuebtn = document.createElement('button');
-	const deletebtn = document.createElement('button');			
-	
 	const cueup = [document.getElementById('mediaFiles')]	  
 	  cueup.forEach((item, index) => {
-      
-	  
       listItem.classList.add("list-group-item");
       listItem.setAttribute("data-index", index);
 	  listItem.innerText = file.name;
 	  cuecontrol.innerText=file.name;
-	  
+	 
 	  cuebtn.addEventListener("click", () => {       
-        playlistplayer.setAttribute("src", url);
-        
-		
-		mediaplayer.setAttribute("src", url);
-		
-	
-		sourceItem.setAttribute("src", url);
-		listItem.setAttribute("src", url);
-		sourceItem.setAttribute('data-index', i + 1);
-		listItem.setAttribute('data-index', i + 1);
-		
-		playlistmedia.appendChild(listItem);
-		
-		playlistplayer.load();
-		
-		playlistplayer.controls = true;
-		new Sortable(playlistmedia);
+	  mediaplayer.setAttribute("src", url);	  
+	  mediaplayer.setAttribute('data-index', i + 1);
+				});
 
-		playlistplayer.appendChild(sourceItem);
-		
-		
-				})
-				});	
+			});	
 
-	
-	
-	
+        playbtn.addEventListener("click",	() => {			
+		mediaplayer.play();
+		
+		});
+			
+	    pausebtn.addEventListener("click",	() => {	
+	    mediaplayer.pause();	});
+		
+		loopbtn.addEventListener("click",	() => {	
+	     
+		 if (mediaplayer.loop === true) {
+		 mediaplayer.loop = false;
+		 loopbtn.style.background='lightgray';}
+	     else {mediaplayer.loop = true;
+		 loopbtn.style.background='blue';}		});
+
 	const deletetrack =[document.getElementById('sortableplaylist')]
 		deletebtn.addEventListener("click", () => {		
 	    medialist.removeChild(trackcontainer);
-		playlistmedia.removeChild(listItem);
-		playlistplayer.removeChild(sourceItem);
+		
 		});
 
 	medialist.appendChild(trackcontainer);	
@@ -149,7 +117,12 @@
 	trackcontainer.appendChild(btncontrol);		
 	
 	btncontrol.appendChild(cuebtn);
+	btncontrol.appendChild(loopbtn);	
+	btncontrol.appendChild(playbtn);
+	btncontrol.appendChild(pausebtn);
 	btncontrol.appendChild(deletebtn);
+	
+	
 	
 		trackcontainer.className="row";
 		
@@ -167,14 +140,20 @@
 		
 		
 		
-		
-		
+		loopbtn.innerHTML="Loop";
+		playbtn.innerHTML="Play";
+		pausebtn.innerHTML="Pause";
 		cuebtn.innerHTML="Cue";
 		deletebtn.innerHTML="Delete";
+		
+		loopbtn.style.background="lightgray";
+		playbtn.style.background="green";
+		pausebtn.style.background="orange";
+		cuebtn.style.background="teal";
+		deletebtn.style.background="red";
 	
 		
 				
-		
 		
 		
   }
