@@ -13,10 +13,19 @@
  </head>
 <style>
 
- .active {
+row {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+row:nth-child(even) {
   background-color: lightblue;
 }
 
+row:nth-child(odd) {
+  background-color: lightgray;
+}
  li {display: block;}
 
 		
@@ -33,12 +42,17 @@
 			<h1 class="card text-center my-1" style="border: 2px solid green;padding:5px;background:lightblue;">Media Playback</h1>
         	      
         <div class="card" style="background:lightgray;">
-			<sblist class="row" id="sortableplaylist">		  
+			<sblist class="row" id="sortableplaylist" >	
+			
 			</sblist>
 		</div>
 		
 <script>
 
+	
+
+
+	
 	const medialist = document.getElementById('sortableplaylist');
 	mediaFiles.addEventListener('change', function() {
            for (let i = 0; i < this.files.length; i++){  
@@ -56,10 +70,20 @@
 	
 	const loopbtn = document.createElement('button');
 	
-	 const trackcontainer=document.createElement('div');
-	 const btncontrol=document.createElement('li');
-	 const cuecontrol=document.createElement('li');	
-	 const playerwindow=document.createElement('li');	
+	
+	
+	const trackcontainer=document.createElement('row');
+	 const timeline = document.createElement('input');
+	 const starttime = document.createElement('input');
+	 const endtime = document.createElement('input');
+	timeline.type="range";
+	starttime.type="number";
+	endtime.type="number";
+	
+	 
+	 const btncontrol=document.createElement('div');
+	 const cuecontrol=document.createElement('div');	
+	 const playerwindow=document.createElement('div');	
 	
 	const mediaplayer=document.createElement('video');
 			
@@ -69,6 +93,8 @@
 		  mediaplayer.setAttribute("src", url);
 		  mediaplayer.load();
 		  
+	
+		  
 	const cueup = [document.getElementById('mediaFiles')]	  
 	  cueup.forEach((item, index) => {
       listItem.classList.add("list-group-item");
@@ -76,16 +102,18 @@
 	  listItem.innerText = file.name;
 	  cuecontrol.innerText=file.name;  
 	  mediaplayer.setAttribute("src", url);	  
-	  trackcontainer.setAttribute('data-index', i + 1);	 
+	  
 	  mediaplayer.setAttribute('data-index', i + 1);    });	
 		
 		playbtn.addEventListener('click', function() {
          if (mediaplayer.paused || mediaplayer.ended) {
           mediaplayer.play();
-          playbtn.textContent = 'Pause';}
+          playbtn.textContent = 'Pause';
+		  playbtn.style.background='yellow';}
         else {
           mediaplayer.pause();
-          playbtn.textContent = 'Play';} });
+          playbtn.textContent = 'Play';
+		  playbtn.style.background='green';}	});
 		
 	    loopbtn.addEventListener("click",	() => {		     
 	     if (mediaplayer.loop === true) {
@@ -102,15 +130,22 @@
 
 	const deletetrack =[document.getElementById('sortableplaylist')]
 		deletebtn.addEventListener("click", () => {		
-	    medialist.removeChild(trackcontainer);
-		
-		});
+	    medialist.removeChild(trackcontainer);	});
+
+
+	mediaplayer.addEventListener('timeupdate', () => {
+  const currentTime = mediaplayer.currentTime;
+  const duration = mediaplayer.duration;
+  const progress = (currentTime);
+    timeline.value=`${progress}`; 	});
+
 
 	medialist.appendChild(trackcontainer);	
 	trackcontainer.appendChild(cuecontrol);
 	trackcontainer.appendChild(playerwindow);
 	playerwindow.appendChild(mediaplayer);
-	trackcontainer.appendChild(btncontrol);		
+	trackcontainer.appendChild(btncontrol);	
+	
 	
 	
 	btncontrol.appendChild(loopbtn);	
@@ -119,7 +154,15 @@
 	
 	btncontrol.appendChild(deletebtn);
 	
+	btncontrol.appendChild(timeline);
 	
+	btncontrol.appendChild(starttime);
+	btncontrol.appendChild(endtime);
+
+	starttime.addEventListener('change',function setTime(){
+	 mediaplayer.currentTime=setTime.value;
+	
+	});
 	
 		trackcontainer.className="row";
 		
@@ -144,18 +187,26 @@
 		
 		loopbtn.style.background="lightgray";
 		
-		cuebtn.style.background="teal";
+		playbtn.style.background="green";
+		stopbtn.style.background="orange";
 		deletebtn.style.background="red";
+	
+
+	
+	
 	
 	}
 	});
+	 
+	
 
+	
+	
 </script
 
 </body>	
 
 </html>
-
 
 
 
