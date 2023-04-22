@@ -151,17 +151,9 @@ row:nth-child(odd) {
 	  mediaplayer.currentTime=starttime.value;
 	  playbtn.style.background="green";
 	  playbtn.textContent = 'Play';}		
-	  
-	  });	 
-	});
-
-
-
-	mediaplayer.addEventListener('timeupdate', function loopchk(){
 	if (mediaplayer.loop === true){
-	mediaplayer.play()}
-	
-	else {mediaplayer.pause()};
+	  mediaplayer.play()}
+	  });	 
 	});
 
 	starttime.addEventListener('change',function setStartTime(){
@@ -232,6 +224,7 @@ row:nth-child(odd) {
 </body>	
 
 </html>
+
 
 
 
