@@ -69,6 +69,7 @@ row:nth-child(odd) {
 	const stopbtn = document.createElement('button');	
 	
 	const loopbtn = document.createElement('button');
+	loopbtn.id="loopbtn";
 	
 	
 	
@@ -78,7 +79,9 @@ row:nth-child(odd) {
 	 const endtime = document.createElement('input');
 	timeline.type="range";
 	starttime.type="number";
+	starttime.id="starttime";
 	endtime.type="number";
+	endtime.id="endtime";
 	
 	 
 	 const btncontrol=document.createElement('div');
@@ -140,6 +143,31 @@ row:nth-child(odd) {
     timeline.value=`${progress}`; 	});
 
 
+	endtime.addEventListener('change',function setEndTime(){
+	mediaplayer.currentTime = endtime.value; 	
+	mediaplayer.addEventListener('timeupdate', function() {
+    if (mediaplayer.currentTime >= endtime.value) { // set the end time to input
+      mediaplayer.pause();
+	  mediaplayer.currentTime=starttime.value;
+	  playbtn.style.background="green";
+	  playbtn.textContent = 'Play';}		
+	  
+	  });	 
+	});
+
+
+
+	mediaplayer.addEventListener('timeupdate', function loopchk(){
+	if (mediaplayer.loop === true){
+	mediaplayer.play()}
+	
+	else {mediaplayer.pause()};
+	});
+
+	starttime.addEventListener('change',function setStartTime(){
+	 mediaplayer.currentTime=starttime.value;	});
+
+
 	medialist.appendChild(trackcontainer);	
 	trackcontainer.appendChild(cuecontrol);
 	trackcontainer.appendChild(playerwindow);
@@ -158,11 +186,8 @@ row:nth-child(odd) {
 	
 	btncontrol.appendChild(starttime);
 	btncontrol.appendChild(endtime);
-
-	starttime.addEventListener('change',function setTime(){
-	 mediaplayer.currentTime=setTime.value;
 	
-	});
+	
 	
 		trackcontainer.className="row";
 		
@@ -207,6 +232,8 @@ row:nth-child(odd) {
 </body>	
 
 </html>
+
+
 
 
 
