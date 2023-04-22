@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 <html>
  <head>
@@ -140,11 +139,16 @@ row:nth-child(odd) {
   const currentTime = mediaplayer.currentTime;
   const duration = mediaplayer.duration;
   const progress = (currentTime);
+  
     timeline.value=`${progress}`; 	});
 
+	 starttime.addEventListener('change',function setStartTime(){
+	 mediaplayer.currentTime=starttime.value;	});
 
 	endtime.addEventListener('change',function setEndTime(){
-	mediaplayer.currentTime = endtime.value; 	
+	mediaplayer.currentTime = endtime.value; 
+
+
 	mediaplayer.addEventListener('timeupdate', function() {
     if (mediaplayer.currentTime >= endtime.value) { // set the end time to input
       mediaplayer.pause();
@@ -153,12 +157,15 @@ row:nth-child(odd) {
 	  playbtn.textContent = 'Play';}		
 	if (mediaplayer.loop === true){
 	  mediaplayer.play()}
-	  });	 
+	 
+	  
+	  });	
+		timeline.min=starttime.value;
+		timeline.max=endtime.value;
+	  
 	});
 
-	starttime.addEventListener('change',function setStartTime(){
-	 mediaplayer.currentTime=starttime.value;	});
-
+	
 
 	medialist.appendChild(trackcontainer);	
 	trackcontainer.appendChild(cuecontrol);
@@ -224,6 +231,7 @@ row:nth-child(odd) {
 </body>	
 
 </html>
+
 
 
 
