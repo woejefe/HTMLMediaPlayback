@@ -30,7 +30,7 @@ row:nth-child(odd) {
 </style> 
 
 <body style="background:gray;">	        
-		<a class="card text-center" href="https://freemp3cloud.com/">Download MP3's Here</a>
+		<a class="card text-center" href="https://freemp3cloud.com/" target="_blank" rel="noopener noreferrer">Download MP3's Here</a>
 		 
 		<div class="card text-center" style="border: 2px solid green;padding:5px;background:lightgray;"> Upload Audio Files(m4a,ogg,mp3,wav)		  
 		  <div class="container"> 		 
@@ -50,9 +50,9 @@ row:nth-child(odd) {
 <script>
    
    new Sortable(sortableplaylist);
-   var recordButton = document.getElementById('recordButton');
-   var mediaRecorder = null;
-   var chunks = [];
+   let recordButton = document.getElementById('recordButton');
+   let mediaRecorder = null;
+   let chunks = [];
 
    recordButton.addEventListener('click', function() {
      if (mediaRecorder === null) {
@@ -116,19 +116,19 @@ row:nth-child(odd) {
 	    medialist.removeChild(trackcontainer);	});
 		medialist.appendChild(trackcontainer);
 		cuecontrol.appendChild(recordTitle);
-	trackcontainer.appendChild(cuecontrol);
-	trackcontainer.appendChild(playerwindow);
-	playerwindow.appendChild(mediaplayer);
-	trackcontainer.appendChild(btncontrol);	
+		trackcontainer.appendChild(cuecontrol);
+		trackcontainer.appendChild(playerwindow);
+		playerwindow.appendChild(mediaplayer);
+		trackcontainer.appendChild(btncontrol);	
 	
 	
 	
-	btncontrol.appendChild(loopbtn);	
-	btncontrol.appendChild(playbtn);
-	btncontrol.appendChild(stopbtn);	
-	btncontrol.appendChild(deletebtn);
+		btncontrol.appendChild(loopbtn);	
+		btncontrol.appendChild(playbtn);
+		btncontrol.appendChild(stopbtn);	
+		btncontrol.appendChild(deletebtn);
 	
-	trackcontainer.className="row";
+		trackcontainer.className="row";
 		
 	    trackcontainer.style.border="2px solid purple";
 	    trackcontainer.style.height="10%";
@@ -155,7 +155,7 @@ row:nth-child(odd) {
 		stopbtn.style.background="orange";
 		deletebtn.style.background="red";
 	
-	loopbtn.id="loopbtn";
+		loopbtn.id="loopbtn";
              chunks = [];
            });
            mediaRecorder.start();
@@ -188,47 +188,43 @@ row:nth-child(odd) {
 	const loopbtn = document.createElement('button');
 	loopbtn.id="loopbtn";
 	 
-	 
-	 		
-		
-	 
-	 
+ 
 	
 	const trackcontainer=document.createElement('row');
-	 const timeline = document.createElement('input');
-	 const starttime = document.createElement('input');
-	 const endtime = document.createElement('input');
+	const timeline = document.createElement('input');
+	const starttime = document.createElement('input');
+	const endtime = document.createElement('input');
 	 
-	timeline.type= document.querySelector('input[type="time"]');
-	starttime.type="number";
-	starttime.id="starttime";
-	endtime.type="number";
-	endtime.id="endtime";
+		timeline.type= document.querySelector('input[type="time"]');
+		starttime.type="number";
+		starttime.id="starttime";
+		endtime.type="number";
+		endtime.id="endtime";
 	
 	
-	 const btncontrol=document.createElement('div');
-	 const cuecontrol=document.createElement('div');	
-	 const playerwindow=document.createElement('div');	
+	const btncontrol=document.createElement('div');
+	const cuecontrol=document.createElement('div');	
+	const playerwindow=document.createElement('div');	
 	
 	const mediaplayer=document.createElement('audio');
 			
 		  
-		  mediaplayer.setAttribute('data-setup', '{}');
-		  mediaplayer.controls = true;
-		  mediaplayer.setAttribute("src", url);
-		  mediaplayer.load();
+		 mediaplayer.setAttribute('data-setup', '{}');
+		 mediaplayer.controls = true;
+		 mediaplayer.setAttribute("src", url);
+		 mediaplayer.load();
 	      
 		  
 	
 		  
 	const cueup = [document.getElementById('mediaFiles')]	  
-	  cueup.forEach((item, index) => {
-      listItem.classList.add("list-group-item");
-      listItem.setAttribute("data-index", index);
-	  listItem.innerText = file.name;
-	  cuecontrol.innerText=file.name;  
-	  mediaplayer.setAttribute("src", url);	   
-	  mediaplayer.setAttribute('data-index', i + 1);    });	
+	     cueup.forEach((item, index) => {
+         listItem.classList.add("list-group-item");
+         listItem.setAttribute("data-index", index);
+	     listItem.innerText = file.name;
+	     cuecontrol.innerText=file.name;  
+	     mediaplayer.setAttribute("src", url);	   
+	     mediaplayer.setAttribute('data-index', i + 1);    });	
 		 
 		timeline.value=endtime.value;
 		
@@ -258,7 +254,7 @@ row:nth-child(odd) {
 		 playbtn.style.background='green';
 		 });
 
-  const deletetrack =[document.getElementById('sortableplaylist')]
+    const deletetrack =[document.getElementById('sortableplaylist')]
 		deletebtn.addEventListener("click", () => {		
 	    medialist.removeChild(trackcontainer);	});
         
@@ -267,29 +263,28 @@ row:nth-child(odd) {
  
 
 	    mediaplayer.addEventListener('timeupdate', () => {
-  const currentTime = mediaplayer.currentTime;
-  const duration = mediaplayer.duration;
-  const progress = (currentTime);
+    const currentTime = mediaplayer.currentTime;
+    const duration = mediaplayer.duration;
+    const progress = (currentTime);
   
 		timeline.value=`${progress}`-`${endtime.value}` ; 	});
 
-	 starttime.addEventListener('change',function setStartTime(){
-	 mediaplayer.currentTime=starttime.value;	});	
+		starttime.addEventListener('change',function setStartTime(){
+		mediaplayer.currentTime=starttime.value;	});	
 	
-	 endtime.addEventListener('change',function setEndTime(){
-	 mediaplayer.currentTime = endtime.value; 
+		endtime.addEventListener('change',function setEndTime(){
+		mediaplayer.currentTime = endtime.value; 
 
 
 	mediaplayer.addEventListener('timeupdate', function() {
-    if (mediaplayer.currentTime >= endtime.value) { // set the end time to input
-      mediaplayer.pause();
-	  mediaplayer.currentTime=starttime.value;
+		if (mediaplayer.currentTime >= endtime.value) { // set the end time to input
+		mediaplayer.pause();
+	    mediaplayer.currentTime=starttime.value;
 	 
-	  playbtn.style.background="green";
-	  playbtn.textContent = 'Play';}	
-	if (mediaplayer.loop === true){
-	  mediaplayer.play()}
-	  
+	    playbtn.style.background="green";
+	    playbtn.textContent = 'Play';}	
+		if (mediaplayer.loop === true){
+	    mediaplayer.play()}	  
 	  });	
 		
 		timeline.min=starttime.value;
