@@ -3,9 +3,10 @@
 <html>
  <head>
         <title>Audio Playback</title>
-		
+		<meta charset="UTF-8">
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">	
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.13.0/Sortable.min.js"></script>
+		
 				
  </head>
 <style>
@@ -17,19 +18,25 @@ row {
 }
 
 row:nth-child(even) {
-  background-color: lightblue;
-}
+  background-color: lightblue;}
 
 row:nth-child(odd) {
-  background-color: lightgray;
-}
- li {display: block;}
+  background-color: lightgray;}
 
+li {display: block;}
+
+.container {display:inline-block;}
+
+
+.handle {
+	cursor: move;
+	cursor: -webkit-grabbing;
+}
 		
 </style> 
 
 <body style="background:gray;">	        
-		<a class="card text-center" href="https://freemp3cloud.com/" target="_blank" rel="noopener noreferrer">Download MP3's Here</a>
+		<a class="card text-center" href="https://freemp3cloud.com/" target="_blank" rel="noopener noreferrer">Download MP3's Here &#128280</a>
 		 
 		<div class="card text-center" style="border: 2px solid green;padding:5px;background:lightgray;"> Upload Audio Files(m4a,ogg,mp3,wav)		  
 		  <div class="container"> 		 
@@ -48,7 +55,12 @@ row:nth-child(odd) {
 	</body>		
 <script>
    
-   new Sortable(sortableplaylist);
+   new Sortable(sortableplaylist,{
+    handle: '.handle', // handle's class
+    animation: 150
+});
+
+ 
    let recordButton = document.getElementById('recordButton');
    let mediaRecorder = null;
    let chunks = [];
@@ -80,6 +92,10 @@ row:nth-child(odd) {
 	         const playerwindow = document.createElement('div');		
 	         const mediaplayer = document.createElement('audio');
 			 const recordTitle = document.createElement('input');
+			 const moveicon = document.createElement('p');
+			 
+			 
+			 moveicon.className="handle";
 			 mediaplayer.setAttribute('data-setup', '{}');
 			 mediaplayer.controls = true;
 			 mediaplayer.setAttribute("src", url);
@@ -114,7 +130,12 @@ row:nth-child(odd) {
 		deletebtn.addEventListener("click", () => {		
 	    medialist.removeChild(trackcontainer);	});
 		medialist.appendChild(trackcontainer);
+		
+		let iconnode = document.createTextNode("🔘");
+		moveicon.appendChild(iconnode);
+		cuecontrol.appendChild(moveicon);		
 		cuecontrol.appendChild(recordTitle);
+		
 		trackcontainer.appendChild(cuecontrol);
 		trackcontainer.appendChild(playerwindow);
 		playerwindow.appendChild(mediaplayer);
@@ -125,6 +146,11 @@ row:nth-child(odd) {
 		btncontrol.appendChild(stopbtn);	
 		btncontrol.appendChild(deletebtn);
 	
+		moveicon.className="handle container";
+		recordTitle.className="card container";
+		
+		
+		
 		trackcontainer.className="row";		
 	    trackcontainer.style.border="2px solid purple";
 	    trackcontainer.style.height="10%";
@@ -175,7 +201,7 @@ row:nth-child(odd) {
 			
 	const listItem = document.createElement("li");
 	const sourceItem = document.createElement("source");
-	const cuebtn = document.createElement('button');
+	
 	const deletebtn = document.createElement('button');	
 	const playbtn = document.createElement('button');
 	const stopbtn = document.createElement('button');		
@@ -273,7 +299,7 @@ row:nth-child(odd) {
 	    playbtn.style.background="green";
 	    playbtn.textContent = 'Play';}	
 		if (mediaplayer.loop === true){
-	    mediaplayer.play()}	  
+	    mediaplayer.play()}
 	  });	
 		
 		timeline.min=starttime.value;
@@ -313,7 +339,7 @@ row:nth-child(odd) {
 		stopbtn.innerHTML="STOP";
 		loopbtn.innerHTML="Loop";
 		playbtn.textContent = 'Play';
-		cuebtn.innerHTML="ARM";
+		
 		deletebtn.innerHTML="Delete";
 		
 		loopbtn.style.background="lightgray";
