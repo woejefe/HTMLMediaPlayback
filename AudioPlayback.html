@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html>
  <head>
         <title>Audio Playback</title>
@@ -30,9 +31,11 @@ row:nth-child(odd) {
 
 <body style="background:gray;">	        
 		<a class="card text-center" href="https://freemp3cloud.com/">Download MP3's Here</a>
+		 
 		<div class="card text-center" style="border: 2px solid green;padding:5px;background:lightgray;"> Upload Audio Files(m4a,ogg,mp3,wav)		  
 		  <div class="container"> 		 
 		    <input class="card text-center" name="mediaFiles" id="mediaFiles" type="file" multiple style="border: 2px solid blue;padding:10px;background:teal;" accept="audio/mpeg,audio/ogg,audio/wav,audio/mp4"> </input>
+			<button id="recordButton">Record</button>
 		  </div>		
 		</div>							
 			
@@ -43,16 +46,136 @@ row:nth-child(odd) {
 			
 			</sblist>
 		</div>
-		
+	</body>		
 <script>
+   
+   new Sortable(sortableplaylist);
+   var recordButton = document.getElementById('recordButton');
+   var mediaRecorder = null;
+   var chunks = [];
 
+   recordButton.addEventListener('click', function() {
+     if (mediaRecorder === null) {
+       navigator.mediaDevices.getUserMedia({ audio: true })
+         .then(function(stream) {
+           mediaRecorder = new MediaRecorder(stream);
+           mediaRecorder.addEventListener('dataavailable', function(event) {
+             chunks.push(event.data);
+           });
+           mediaRecorder.addEventListener('stop', function() {
+             var blob = new Blob(chunks, { type: 'audio/webm' });
+             var url = URL.createObjectURL(blob);
+             var audio = document.createElement('audio');
+             audio.controls = true;
+             audio.src = url;
+             var row = document.createElement('row');
+             row.appendChild(audio);
+            
+			 const trackcontainer=document.createElement('row');
+  			 const playbtn = document.createElement('button');
+			 const stopbtn = document.createElement('button');		
+			 const loopbtn = document.createElement('button');
+			 const btncontrol = document.createElement('div');
+	         const cuecontrol = document.createElement('div');
+			 const deletebtn = document.createElement('button');			 
+	         const playerwindow = document.createElement('div');		
+	         const mediaplayer = document.createElement('audio');
+			 const recordTitle = document.createElement('input');
+			 mediaplayer.setAttribute('data-setup', '{}');
+			 mediaplayer.controls = true;
+			 mediaplayer.setAttribute("src", url);
+			 mediaplayer.load();
+			 playbtn.addEventListener('click', function() {
+         if (mediaplayer.paused || mediaplayer.ended) {
+          mediaplayer.play();
+          playbtn.textContent = 'Pause';
+		  playbtn.style.background='yellow';}
+        else {
+          mediaplayer.pause();
+          playbtn.textContent = 'Play';
+		  playbtn.style.background='green';}	});
+		
+	    loopbtn.addEventListener("click",	() => {		     
+	     if (mediaplayer.loop === true) {
+		 mediaplayer.loop = false;
+		 loopbtn.style.background='lightgray';}
+	     else {mediaplayer.loop = true;
+		 loopbtn.style.background='blue';}		});
+		 
+		 stopbtn.addEventListener("click",	() => {
+		 mediaplayer.pause();
+		 mediaplayer.load();
+		 mediaplayer.loop = false;
+		 loopbtn.style.background='lightgray';
+		 playbtn.textContent = 'Play'		 
+		 playbtn.style.background='green';
+		 });
 
+  const deletetrack =[document.getElementById('sortableplaylist')]
+		deletebtn.addEventListener("click", () => {		
+	    medialist.removeChild(trackcontainer);	});
+		medialist.appendChild(trackcontainer);
+		cuecontrol.appendChild(recordTitle);
+	trackcontainer.appendChild(cuecontrol);
+	trackcontainer.appendChild(playerwindow);
+	playerwindow.appendChild(mediaplayer);
+	trackcontainer.appendChild(btncontrol);	
 	
+	
+	
+	btncontrol.appendChild(loopbtn);	
+	btncontrol.appendChild(playbtn);
+	btncontrol.appendChild(stopbtn);	
+	btncontrol.appendChild(deletebtn);
+	
+	trackcontainer.className="row";
+		
+	    trackcontainer.style.border="2px solid purple";
+	    trackcontainer.style.height="10%";
+		
+		
+		cuecontrol.className="col";
+		playerwindow.className="col";
+		btncontrol.className="col";
+		
+		cuecontrol.style.width="33%";
+		playerwindow.style.width="33%";
+		btncontrol.style.width="33%";
+		
+		
+		stopbtn.innerHTML="STOP";
+		loopbtn.innerHTML="Loop";
+		playbtn.textContent = 'Play';
+		
+		deletebtn.innerHTML="Delete";
+		
+		loopbtn.style.background="lightgray";
+		
+		playbtn.style.background="green";
+		stopbtn.style.background="orange";
+		deletebtn.style.background="red";
+	
+	loopbtn.id="loopbtn";
+             chunks = [];
+           });
+           mediaRecorder.start();
+           recordButton.textContent = 'Stop';
+         })
+         .catch(function(error) {
+           console.error('Error accessing microphone:', error);
+         });
+     } else {
+       mediaRecorder.stop();
+       mediaRecorder = null;
+       recordButton.textContent = 'Record';
+     }
+   });
+   
 	const medialist = document.getElementById('sortableplaylist');
 	mediaFiles.addEventListener('change', function() {
            for (let i = 0; i < this.files.length; i++){  
 				   
-   	new Sortable(medialist);
+   	
 	const file = this.files[i];
     const url = URL.createObjectURL(file);
 			
@@ -64,7 +187,12 @@ row:nth-child(odd) {
 	const stopbtn = document.createElement('button');		
 	const loopbtn = document.createElement('button');
 	loopbtn.id="loopbtn";
-	
+	 
+	 
+	 		
+		
+	 
+	 
 	
 	const trackcontainer=document.createElement('row');
 	 const timeline = document.createElement('input');
@@ -134,6 +262,8 @@ row:nth-child(odd) {
 		deletebtn.addEventListener("click", () => {		
 	    medialist.removeChild(trackcontainer);	});
         
+
+		
  
 
 	    mediaplayer.addEventListener('timeupdate', () => {
@@ -230,6 +360,6 @@ row:nth-child(odd) {
 	
 </script
 
-</body>	
+
 
 </html>
