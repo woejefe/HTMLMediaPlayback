@@ -1,13 +1,11 @@
-
 <!DOCTYPE html>
 <html>
  <head>
-        <title>Media Playback</title>
+        <title>Audio Playback</title>
+		
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">	
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.13.0/Sortable.min.js"></script>
 		
-		<link href="https://vjs.zencdn.net/7.11.2/video-js.min.css" rel="stylesheet">
-		<script src="https://vjs.zencdn.net/7.11.2/video.min.js"></script>
 		
  </head>
 <style>
@@ -31,14 +29,14 @@ row:nth-child(odd) {
 </style> 
 
 <body style="background:gray;">	        
-		
-		<div class="card text-center" style="border: 2px solid green;padding:5px;background:lightgray;"> Upload Media Files(mp4,webm,ogg,mp3,wav,pdf)		  
+		<a class="card text-center" href="https://freemp3cloud.com/">Download MP3's Here</a>
+		<div class="card text-center" style="border: 2px solid green;padding:5px;background:lightgray;"> Upload Audio Files(m4a,ogg,mp3,wav)		  
 		  <div class="container"> 		 
-		    <input class="card text-center" id="mediaFiles" type="file" multiple style="border: 2px solid blue;padding:10px;background:teal;" accept="application/pdf,audio/mpeg,audio/ogg,audio/wav,video/mp4,video/ogg,video/webm"> </input>
+		    <input class="card text-center" name="mediaFiles" id="mediaFiles" type="file" multiple style="border: 2px solid blue;padding:10px;background:teal;" accept="audio/mpeg,audio/ogg,audio/wav,audio/mp4"> </input>
 		  </div>		
 		</div>							
 			
-			<h1 class="card text-center my-1" style="border: 2px solid green;padding:5px;background:lightblue;">Media Playback</h1>
+			<h1 class="card text-center my-1" style="border: 2px solid green;padding:5px;background:lightblue;">Audio Playback</h1>
         	      
         <div class="card" style="background:lightgray;">
 			<sblist class="row" id="sortableplaylist" >	
@@ -47,8 +45,6 @@ row:nth-child(odd) {
 		</div>
 		
 <script>
-
-	
 
 
 	
@@ -65,35 +61,35 @@ row:nth-child(odd) {
 	const cuebtn = document.createElement('button');
 	const deletebtn = document.createElement('button');	
 	const playbtn = document.createElement('button');
-	const stopbtn = document.createElement('button');	
-	
+	const stopbtn = document.createElement('button');		
 	const loopbtn = document.createElement('button');
 	loopbtn.id="loopbtn";
-	
 	
 	
 	const trackcontainer=document.createElement('row');
 	 const timeline = document.createElement('input');
 	 const starttime = document.createElement('input');
 	 const endtime = document.createElement('input');
-	timeline.type="range";
+	 
+	timeline.type= document.querySelector('input[type="time"]');
 	starttime.type="number";
 	starttime.id="starttime";
 	endtime.type="number";
 	endtime.id="endtime";
 	
-	 
+	
 	 const btncontrol=document.createElement('div');
 	 const cuecontrol=document.createElement('div');	
 	 const playerwindow=document.createElement('div');	
 	
-	const mediaplayer=document.createElement('video');
+	const mediaplayer=document.createElement('audio');
 			
-		  mediaplayer.className="video-js";
+		  
 		  mediaplayer.setAttribute('data-setup', '{}');
 		  mediaplayer.controls = true;
 		  mediaplayer.setAttribute("src", url);
 		  mediaplayer.load();
+	      
 		  
 	
 		  
@@ -103,9 +99,10 @@ row:nth-child(odd) {
       listItem.setAttribute("data-index", index);
 	  listItem.innerText = file.name;
 	  cuecontrol.innerText=file.name;  
-	  mediaplayer.setAttribute("src", url);	  
-	  
+	  mediaplayer.setAttribute("src", url);	   
 	  mediaplayer.setAttribute('data-index', i + 1);    });	
+		 
+		timeline.value=endtime.value;
 		
 		playbtn.addEventListener('click', function() {
          if (mediaplayer.paused || mediaplayer.ended) {
@@ -126,45 +123,50 @@ row:nth-child(odd) {
 		 
 		 stopbtn.addEventListener("click",	() => {
 		 mediaplayer.pause();
-		 mediaplayer.load();
-		 playbtn.textContent = 'Play'
+		 mediaplayer.currentTime=starttime.value;
+		 mediaplayer.loop = false;
+		 loopbtn.style.background='lightgray';
+		 playbtn.textContent = 'Play'		 
+		 playbtn.style.background='green';
 		 });
 
-	const deletetrack =[document.getElementById('sortableplaylist')]
+  const deletetrack =[document.getElementById('sortableplaylist')]
 		deletebtn.addEventListener("click", () => {		
 	    medialist.removeChild(trackcontainer);	});
+        
+ 
 
-
-	mediaplayer.addEventListener('timeupdate', () => {
+	    mediaplayer.addEventListener('timeupdate', () => {
   const currentTime = mediaplayer.currentTime;
   const duration = mediaplayer.duration;
   const progress = (currentTime);
   
-    timeline.value=`${progress}`; 	});
+		timeline.value=`${progress}`-`${endtime.value}` ; 	});
 
 	 starttime.addEventListener('change',function setStartTime(){
-	 mediaplayer.currentTime=starttime.value;	});
-
-	endtime.addEventListener('change',function setEndTime(){
-	mediaplayer.currentTime = endtime.value; 
+	 mediaplayer.currentTime=starttime.value;	});	
+	
+	 endtime.addEventListener('change',function setEndTime(){
+	 mediaplayer.currentTime = endtime.value; 
 
 
 	mediaplayer.addEventListener('timeupdate', function() {
     if (mediaplayer.currentTime >= endtime.value) { // set the end time to input
       mediaplayer.pause();
 	  mediaplayer.currentTime=starttime.value;
+	 
 	  playbtn.style.background="green";
-	  playbtn.textContent = 'Play';}		
+	  playbtn.textContent = 'Play';}	
 	if (mediaplayer.loop === true){
 	  mediaplayer.play()}
-	 
 	  
 	  });	
+		
 		timeline.min=starttime.value;
 		timeline.max=endtime.value;
 	  
 	});
-
+	
 	
 
 	medialist.appendChild(trackcontainer);	
@@ -178,10 +180,10 @@ row:nth-child(odd) {
 	btncontrol.appendChild(loopbtn);	
 	btncontrol.appendChild(playbtn);
 	btncontrol.appendChild(stopbtn);
-	
+	btncontrol.appendChild(timeline);
 	btncontrol.appendChild(deletebtn);
 	
-	btncontrol.appendChild(timeline);
+	
 	
 	btncontrol.appendChild(starttime);
 	btncontrol.appendChild(endtime);
@@ -231,14 +233,3 @@ row:nth-child(odd) {
 </body>	
 
 </html>
-
-
-
-
-
-
-
-
-
-
-
