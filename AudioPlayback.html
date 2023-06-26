@@ -5,17 +5,13 @@
         <title>Audio Playback</title>
 		<meta charset="UTF-8">
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">	
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.13.0/Sortable.min.js"></script>
+		<script src="https://raw.githack.com/SortableJS/Sortable/master/Sortable.js"></script>
 		
 				
  </head>
 <style>
 
-row {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
+
 
 row:nth-child(even) {
   background-color: lightblue;}
@@ -23,15 +19,19 @@ row:nth-child(even) {
 row:nth-child(odd) {
   background-color: lightgray;}
 
-li {display: block;}
+li {display:block;}
 
-.container {display:inline-block;}
+
+.container{display:flex;}
 
 
 .handle {
+	display:flex;
 	cursor: move;
 	cursor: -webkit-grabbing;
 }
+
+
 		
 </style> 
 
@@ -41,23 +41,30 @@ li {display: block;}
 		<div class="card text-center" style="border: 2px solid green;padding:5px;background:lightgray;"> Upload Audio Files(m4a,ogg,mp3,wav)		  
 		  <div class="container"> 		 
 		    <input class="card text-center" name="mediaFiles" id="mediaFiles" type="file" multiple style="border: 2px solid blue;padding:10px;background:teal;" accept="audio/mpeg,audio/ogg,audio/wav,audio/mp4"> </input>
+		
+			
 			<button id="recordButton">Record</button>
+			
+			
 		  </div>		
 		</div>							
 			
 			<h1 class="card text-center my-1" style="border: 2px solid green;padding:5px;background:lightblue;">Audio Playback</h1>
         	      
         <div class="card" style="background:lightgray;">
-			<sblist class="row" id="sortableplaylist" >	
+			<sblist class="row card" id="sortableplaylist" >	
 			
 			</sblist>
 		</div>
 	</body>		
 <script>
    
-   new Sortable(sortableplaylist,{
+    Sortable.create(sortableplaylist,{
+	group: "localStorage",
     handle: '.handle', // handle's class
     animation: 150
+	
+	
 });
 
  
@@ -74,12 +81,12 @@ li {display: block;}
              chunks.push(event.data);
            });
            mediaRecorder.addEventListener('stop', function() {
-             var blob = new Blob(chunks, { type: 'audio/webm' });
-             var url = URL.createObjectURL(blob);
-             var audio = document.createElement('audio');
+             const blob = new Blob(chunks, { type: 'audio/webm' });
+             const url = URL.createObjectURL(blob);
+             const audio = document.createElement('audio');
              audio.controls = true;
              audio.src = url;
-             var row = document.createElement('row');
+             const row = document.createElement('row');
              row.appendChild(audio);
             
 			 const trackcontainer=document.createElement('row');
@@ -93,9 +100,9 @@ li {display: block;}
 	         const mediaplayer = document.createElement('audio');
 			 const recordTitle = document.createElement('input');
 			 const moveicon = document.createElement('p');
+			 const cuecontainer = document.createElement('div');
 			 
 			 
-			 moveicon.className="handle";
 			 mediaplayer.setAttribute('data-setup', '{}');
 			 mediaplayer.controls = true;
 			 mediaplayer.setAttribute("src", url);
@@ -131,10 +138,13 @@ li {display: block;}
 	    medialist.removeChild(trackcontainer);	});
 		medialist.appendChild(trackcontainer);
 		
-		let iconnode = document.createTextNode("🔘");
+		let iconnode = document.createTextNode("☩");
 		moveicon.appendChild(iconnode);
-		cuecontrol.appendChild(moveicon);		
-		cuecontrol.appendChild(recordTitle);
+		cuecontainer.appendChild(moveicon);		
+		cuecontainer.appendChild(recordTitle);
+		cuecontrol.appendChild(cuecontainer);
+		
+		recordTitle.placeholder='Record';
 		
 		trackcontainer.appendChild(cuecontrol);
 		trackcontainer.appendChild(playerwindow);
@@ -146,8 +156,10 @@ li {display: block;}
 		btncontrol.appendChild(stopbtn);	
 		btncontrol.appendChild(deletebtn);
 	
-		moveicon.className="handle container";
-		recordTitle.className="card container";
+        cuecontainer.className="container";	
+		moveicon.className="handle text-shadow text-center";
+		recordTitle.className="card container text-center";
+		recordTitle.type="text";
 		
 		
 		
@@ -156,8 +168,9 @@ li {display: block;}
 	    trackcontainer.style.height="10%";
 				
 		cuecontrol.className="col";
-		playerwindow.className="col";
-		btncontrol.className="col";
+		playerwindow.className="col text-center";
+		btncontrol.className="col text-center";
+		
 		
 		cuecontrol.style.width="33%";
 		playerwindow.style.width="33%";
@@ -186,6 +199,7 @@ li {display: block;}
          });
      } else {
        mediaRecorder.stop();
+	   
        mediaRecorder = null;
        recordButton.textContent = 'Record';
      }
@@ -202,13 +216,16 @@ li {display: block;}
 	const listItem = document.createElement("li");
 	const sourceItem = document.createElement("source");
 	
+	const recordTitle = document.createElement('input');
+	const tracklink = document.createElement('input');
 	const deletebtn = document.createElement('button');	
 	const playbtn = document.createElement('button');
 	const stopbtn = document.createElement('button');		
 	const loopbtn = document.createElement('button');
-	loopbtn.id="loopbtn";
+		loopbtn.id="loopbtn";
 	 
- 
+	const moveicon = document.createElement('p');
+	const cuecontainer = document.createElement('div');
 	
 	const trackcontainer=document.createElement('row');
 	const timeline = document.createElement('input');
@@ -220,7 +237,7 @@ li {display: block;}
 		starttime.id="starttime";
 		endtime.type="number";
 		endtime.id="endtime";
-	
+		tracklink.type="checkbox";
 	
 	const btncontrol=document.createElement('div');
 	const cuecontrol=document.createElement('div');	
@@ -240,7 +257,7 @@ li {display: block;}
          listItem.classList.add("list-group-item");
          listItem.setAttribute("data-index", index);
 	     listItem.innerText = file.name;
-	     cuecontrol.innerText=file.name;  
+	       
 	     mediaplayer.setAttribute("src", url);	   
 	     mediaplayer.setAttribute('data-index', i + 1);    });	
 		 
@@ -270,6 +287,13 @@ li {display: block;}
 		 loopbtn.style.background='lightgray';
 		 playbtn.textContent = 'Play'		 
 		 playbtn.style.background='green';
+		 });
+		 
+		 tracklink.addEventListener('change', function() {
+		 if (tracklink===true){
+		 
+		 }else{}
+		 
 		 });
 
     const deletetrack =[document.getElementById('sortableplaylist')]
@@ -308,29 +332,44 @@ li {display: block;}
 	});
 	
 	
-	medialist.appendChild(trackcontainer);	
-	trackcontainer.appendChild(cuecontrol);
-	trackcontainer.appendChild(playerwindow);
-	playerwindow.appendChild(mediaplayer);
-	trackcontainer.appendChild(btncontrol);	
+		medialist.appendChild(trackcontainer);
+
+	let iconnode = document.createTextNode("☩");
+		moveicon.appendChild(iconnode);
+		cuecontainer.appendChild(moveicon);	
+        cuecontainer.appendChild(recordTitle);
+        recordTitle.placeholder=file.name;		
+		cuecontrol.appendChild(cuecontainer);
 	
-	btncontrol.appendChild(loopbtn);	
-	btncontrol.appendChild(playbtn);
-	btncontrol.appendChild(stopbtn);
-	btncontrol.appendChild(timeline);
-	btncontrol.appendChild(deletebtn);	
+		trackcontainer.appendChild(cuecontrol);
+		trackcontainer.appendChild(playerwindow);
+		playerwindow.appendChild(mediaplayer);
+		trackcontainer.appendChild(btncontrol);	
 	
-	btncontrol.appendChild(starttime);
-	btncontrol.appendChild(endtime);
+		btncontrol.appendChild(loopbtn);	
+		btncontrol.appendChild(playbtn);
+		btncontrol.appendChild(stopbtn);
+		btncontrol.appendChild(timeline);
+		btncontrol.appendChild(deletebtn);	
+		btncontrol.appendChild(tracklink);
+	
+		btncontrol.appendChild(starttime);
+		btncontrol.appendChild(endtime);
 
 		trackcontainer.className="row";
 		
 	    trackcontainer.style.border="2px solid purple";
 	    trackcontainer.style.height="10%";		
 		
+		
+		cuecontainer.className="container";	
+		moveicon.className="handle text-shadow text-center";
+		recordTitle.className="card container text-center";
+		recordTitle.type="text";
+		
 		cuecontrol.className="col";
-		playerwindow.className="col";
-		btncontrol.className="col";
+		playerwindow.className="col text-center";
+		btncontrol.className="col text-center";
 		
 		cuecontrol.style.width="33%";
 		playerwindow.style.width="33%";
