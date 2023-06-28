@@ -91,25 +91,26 @@ li {display:block;}
              const row = document.createElement('row');
              row.appendChild(audio);
             
-			 const trackcontainer=document.createElement('row');
-  			 const playbtn = document.createElement('button');
-			 const stopbtn = document.createElement('button');		
-			 const loopbtn = document.createElement('button');
-			 const btncontrol = document.createElement('div');
-	         const cuecontrol = document.createElement('div');
-			 const deletebtn = document.createElement('button');			 
-	         const playerwindow = document.createElement('div');		
-	         const mediaplayer = document.createElement('audio');
-			 const recordTitle = document.createElement('input');
-			 const moveicon = document.createElement('p');
-			 const cuecontainer = document.createElement('div');
+		const trackcontainer=document.createElement('row');
+  		const playbtn = document.createElement('button');
+		const stopbtn = document.createElement('button');		
+		const loopbtn = document.createElement('button');
+		const btncontrol = document.createElement('div');
+	        const cuecontrol = document.createElement('div');
+		const deletebtn = document.createElement('button');			 
+	        const playerwindow = document.createElement('div');		
+	        const mediaplayer = document.createElement('audio');
+		const recordTitle = document.createElement('input');
+		const moveicon = document.createElement('p');
+		const cuecontainer = document.createElement('div');
 			 
 			 
-			 mediaplayer.setAttribute('data-setup', '{}');
-			 mediaplayer.controls = true;
-			 mediaplayer.setAttribute("src", url);
-			 mediaplayer.load();
-			 playbtn.addEventListener('click', function() {
+		    mediaplayer.setAttribute('data-setup', '{}');
+		    mediaplayer.controls = true;
+		    mediaplayer.setAttribute("src", url);		
+		    mediaplayer.load();
+		   
+	playbtn.addEventListener('click', function() {
          if (mediaplayer.paused || mediaplayer.ended) {
           mediaplayer.play();
           playbtn.textContent = 'Pause';
@@ -158,7 +159,7 @@ li {display:block;}
 		btncontrol.appendChild(stopbtn);	
 		btncontrol.appendChild(deletebtn);
 	
-        cuecontainer.className="container";	
+        	cuecontainer.className="container";	
 		moveicon.className="handle text-shadow text-center";
 		recordTitle.className="card container text-center";
 		recordTitle.type="text";
@@ -166,8 +167,8 @@ li {display:block;}
 		
 		
 		trackcontainer.className="row";		
-	    trackcontainer.style.border="2px solid purple";
-	    trackcontainer.style.height="10%";
+	    	trackcontainer.style.border="2px solid purple";
+	    	trackcontainer.style.height="10%";
 				
 		cuecontrol.className="col";
 		playerwindow.className="col text-center";
@@ -191,7 +192,7 @@ li {display:block;}
 		deletebtn.style.background="red";
 	
 		loopbtn.id="loopbtn";
-             chunks = [];
+             	chunks = [];
            });
            mediaRecorder.start();
            recordButton.textContent = 'Stop';
@@ -213,7 +214,7 @@ li {display:block;}
 				   
    	
 	const file = this.files[i];
-    const url = URL.createObjectURL(file);
+    	const url = URL.createObjectURL(file);
 			
 	const listItem = document.createElement("li");
 	const sourceItem = document.createElement("source");
@@ -259,8 +260,8 @@ li {display:block;}
 		  
 	const cueup = [document.getElementById('mediaFiles')]	  
 	    cueup.forEach((item, index) => {
-        listItem.classList.add("list-group-item");
-        listItem.setAttribute("data-index", index);
+            listItem.classList.add("list-group-item");
+            listItem.setAttribute("data-index", index);
 	    listItem.innerText = file.name;	       
 	    mediaplayer.setAttribute("src", url);	   
 	    mediaplayer.setAttribute('data-index', i + 1);    });	
@@ -299,15 +300,15 @@ li {display:block;}
 		 
 		
 
-    const deletetrack =[document.getElementById('sortableplaylist')]
+    		const deletetrack =[document.getElementById('sortableplaylist')]
 		deletebtn.addEventListener("click", () => {		
 	    medialist.removeChild(trackcontainer);	});
         
 
 	    mediaplayer.addEventListener('timeupdate', () => {
-    const currentTime = mediaplayer.currentTime;
-    const duration = mediaplayer.duration;
-    const progress = (currentTime);
+    		const currentTime = mediaplayer.currentTime;
+    		const duration = mediaplayer.duration;
+    		const progress = (currentTime);
   
 		timeline.value=`${progress}`-`${endtime.value}` ; 	});
 
@@ -340,8 +341,8 @@ li {display:block;}
 	let iconnode = document.createTextNode("☩");
 		moveicon.appendChild(iconnode);
 		cuecontainer.appendChild(moveicon);	
-        cuecontainer.appendChild(recordTitle);
-        recordTitle.placeholder=file.name;		
+       		cuecontainer.appendChild(recordTitle);
+                recordTitle.placeholder=file.name;		
 		cuecontrol.appendChild(cuecontainer);
 	
 		trackcontainer.appendChild(cuecontrol);
@@ -362,8 +363,8 @@ li {display:block;}
 
 		trackcontainer.className="row";
 		
-	    trackcontainer.style.border="2px solid purple";
-	    trackcontainer.style.height="10%";		
+	        trackcontainer.style.border="2px solid purple";
+	        trackcontainer.style.height="10%";		
 		
 		
 		cuecontainer.className="container";	
