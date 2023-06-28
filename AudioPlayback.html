@@ -71,6 +71,8 @@ li {display:block;}
    let recordButton = document.getElementById('recordButton');
    let mediaRecorder = null;
    let chunks = [];
+   
+
 
    recordButton.addEventListener('click', function() {
      if (mediaRecorder === null) {
@@ -216,13 +218,14 @@ li {display:block;}
 	const listItem = document.createElement("li");
 	const sourceItem = document.createElement("source");
 	
+//	const tracklink = document.createElement('input');
 	const recordTitle = document.createElement('input');
-	const tracklink = document.createElement('input');
+	
 	const deletebtn = document.createElement('button');	
 	const playbtn = document.createElement('button');
 	const stopbtn = document.createElement('button');		
 	const loopbtn = document.createElement('button');
-		loopbtn.id="loopbtn";
+	
 	 
 	const moveicon = document.createElement('p');
 	const cuecontainer = document.createElement('div');
@@ -231,35 +234,36 @@ li {display:block;}
 	const timeline = document.createElement('input');
 	const starttime = document.createElement('input');
 	const endtime = document.createElement('input');
-	 
-		timeline.type= document.querySelector('input[type="time"]');
-		starttime.type="number";
-		starttime.id="starttime";
-		endtime.type="number";
-		endtime.id="endtime";
-		tracklink.type="checkbox";
 	
 	const btncontrol=document.createElement('div');
 	const cuecontrol=document.createElement('div');	
 	const playerwindow=document.createElement('div');	
 	
 	const mediaplayer=document.createElement('audio');
-			
-		  
-		 mediaplayer.setAttribute('data-setup', '{}');
-		 mediaplayer.controls = true;
-		 mediaplayer.setAttribute("src", url);
-		 mediaplayer.load();
+		
+//		tracklink.type="checkbox";
+//		tracklink.id="tracklink";
+		mediaplayer.id="audio";
+		loopbtn.id="loopbtn";
+		timeline.type= document.querySelector('input[type="time"]');
+		starttime.type="number";
+		starttime.id="starttime";
+		endtime.type="number";
+		endtime.id="endtime";
+		
+		mediaplayer.setAttribute('data-setup', '{}');
+		mediaplayer.controls = true;
+		mediaplayer.setAttribute("src", url);
+		mediaplayer.load();
 	      
 		  
 	const cueup = [document.getElementById('mediaFiles')]	  
-	     cueup.forEach((item, index) => {
-         listItem.classList.add("list-group-item");
-         listItem.setAttribute("data-index", index);
-	     listItem.innerText = file.name;
-	       
-	     mediaplayer.setAttribute("src", url);	   
-	     mediaplayer.setAttribute('data-index', i + 1);    });	
+	    cueup.forEach((item, index) => {
+        listItem.classList.add("list-group-item");
+        listItem.setAttribute("data-index", index);
+	    listItem.innerText = file.name;	       
+	    mediaplayer.setAttribute("src", url);	   
+	    mediaplayer.setAttribute('data-index', i + 1);    });	
 		 
 		timeline.value=endtime.value;
 		
@@ -267,11 +271,15 @@ li {display:block;}
          if (mediaplayer.paused || mediaplayer.ended) {
           mediaplayer.play();
           playbtn.textContent = 'Pause';
-		  playbtn.style.background='yellow';}
+		  playbtn.style.background='yellow';
+		  
+		  }
         else {
           mediaplayer.pause();
           playbtn.textContent = 'Play';
-		  playbtn.style.background='green';}	});
+		  playbtn.style.background='green';
+		  
+		  }	});
 		
 	    loopbtn.addEventListener("click",	() => {		     
 	     if (mediaplayer.loop === true) {
@@ -289,12 +297,7 @@ li {display:block;}
 		 playbtn.style.background='green';
 		 });
 		 
-		 tracklink.addEventListener('change', function() {
-		 if (tracklink===true){
-		 
-		 }else{}
-		 
-		 });
+		
 
     const deletetrack =[document.getElementById('sortableplaylist')]
 		deletebtn.addEventListener("click", () => {		
@@ -350,8 +353,9 @@ li {display:block;}
 		btncontrol.appendChild(playbtn);
 		btncontrol.appendChild(stopbtn);
 		btncontrol.appendChild(timeline);
-		btncontrol.appendChild(deletebtn);	
-		btncontrol.appendChild(tracklink);
+		btncontrol.appendChild(deletebtn);
+//		btncontrol.appendChild(tracklink);		
+		
 	
 		btncontrol.appendChild(starttime);
 		btncontrol.appendChild(endtime);
@@ -389,15 +393,29 @@ li {display:block;}
 	
 
 	
+//	tracklink.addEventListener('change', function() {
+//	var sblist = document.getElementById("sortableplaylist");
+//	var currentTrack = audio;
+//	var nextTrack = currentTrack.nextElementSibling;
+//	while (nextTrack && nextTrack.getAttribute("tracklink") !== "true") {
+//		nextTrack = nextTrack.nextElementSibling;
+//	}
+//	if (nextTrack) {
+  // Remove the "playing" class from the current track
+//    currentTrack.classList.remove("playing");
+
+  // Add the "playing" class to the next track
+//    nextTrack.classList.add("playing");
+	
+//	}
+//	});
 	
 	
 	}
 	});
-	 
+	
 	
 
-	
-	
 </script
 
 
